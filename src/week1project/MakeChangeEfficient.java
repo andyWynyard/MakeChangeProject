@@ -44,9 +44,9 @@ public class MakeChangeEfficient {
 	}
 	
 	public static String Concat() {
-		String[] notesCoins = {" hundred(s), ", " fiftie(s), ", " twentie(s), ", 
+		final String[] notesCoins = {" hundred(s), ", " fiftie(s), ", " twentie(s), ", 
 				" ten(s), ", " five(s), ", " two(s), ", " one(s), ", " fifty c(s), ", 
-				" quarter(s), ", " dime(s), ", " nickle(s(, ", " pennie(s)."};
+				" quarter(s), ", " dime(s), ", " nickle(s(, ", " penny(s)."};
 		String concat = "";
 		
 		for (int i = 0; i < changeDenoms.length; i++) {
