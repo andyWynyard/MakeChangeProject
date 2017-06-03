@@ -12,20 +12,24 @@ public class MakeChange {
 		double ticketPrice = keyboard.nextDouble();
 		System.out.print("Please enter the money given: ");
 		double moneyGiven = keyboard.nextDouble();
-		System.out.print("Amount: $" + ticketPrice + ", ");
-		System.out.println("Tendered: $" + moneyGiven);
-		keyboard.close();
 		
-		
-		if (ticketPrice > moneyGiven) {
-			System.out.println("Insufficient coin!!");
+		if ((ticketPrice * 100 % 1) != 0 || (moneyGiven * 100 % 1) != 0) {
+			System.out.println("Invalid amount!!");
 		} else {
-			CalcChange(ticketPrice, moneyGiven);
+			System.out.print("Amount: $" + ticketPrice + ", ");
+			System.out.println("Tendered: $" + moneyGiven);
+			keyboard.close();
 			
-			System.out.println("Result: " + Concat());
-			System.out.println("" + hundredD + fiftyD + twentyD + tenD + fiveD + twoD + oneD + fiftyC + quarter + dime + nickle + penny);
+			
+			if (ticketPrice > moneyGiven) {
+				System.out.println("Insufficient coin!!");
+			} else {
+				CalcChange(ticketPrice, moneyGiven);
+				
+				System.out.println("Result: " + Concat());
+				System.out.println("" + hundredD + fiftyD + twentyD + tenD + fiveD + twoD + oneD + fiftyC + quarter + dime + nickle + penny);
+			}
 		}
-
 	}
 	
 	public static void CalcChange(double ticketPrice, double moneyGiven) {
