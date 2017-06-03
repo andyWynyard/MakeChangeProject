@@ -5,24 +5,27 @@ public class MakeChangeEfficient {
 	static int[] changeDenoms = new int[12];
 
 	public static void main(String[] args) {
+		TakeInput();
+	}
+
+	public static void TakeInput() {
 		Scanner keyboard = new Scanner(System.in);
 		System.out.print("Please enter item price: ");
 		double ticketPrice = keyboard.nextDouble();
-		System.out.print("Please enter the money given: ");
+		System.out.print("Please enter the money tendered: ");
 		double moneyGiven = keyboard.nextDouble();
+		keyboard.close();
 		
 		if ((ticketPrice * 100 % 1) != 0 || (moneyGiven * 100 % 1) != 0) {
 			System.out.println("Invalid amount!!");
 		} else {
-			System.out.println("Amount: $" + ticketPrice);
-			System.out.println("Tendered: $" + moneyGiven);
-			keyboard.close();
-
 			if (ticketPrice > moneyGiven) {
 				System.out.println("Insufficient coin!!");
+				CalcChange(-ticketPrice, 0);			
+				System.out.println("Required: " + Concat());
 			} else {
 				CalcChange(ticketPrice, moneyGiven);			
-				System.out.println("Result: " + Concat());
+				System.out.println("Your change includes: " + Concat());
 			}
 		}
 	}
@@ -41,9 +44,9 @@ public class MakeChangeEfficient {
 	}
 	
 	public static String Concat() {
-		String[] notesCoins = {" hundreds, ", " fifties, ", " twenties, ", 
-				" tens, ", " fives, ", " twos, ", " ones, ", " fifty c, ", 
-				" quarters, ", " dimes, ", " nickles, ", " pennies."};
+		String[] notesCoins = {" hundred(s), ", " fiftie(s), ", " twentie(s), ", 
+				" ten(s), ", " five(s), ", " two(s), ", " one(s), ", " fifty c(s), ", 
+				" quarter(s), ", " dime(s), ", " nickle(s(, ", " pennie(s)."};
 		String concat = "";
 		
 		for (int i = 0; i < changeDenoms.length; i++) {
