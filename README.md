@@ -12,3 +12,7 @@ Late Sunday I changed the prompts to an array of prompts that could be added to 
 
 I also added another array to take the two amounts (price and money given) as I could then reduce the system input to one loop.
 
+*************FINAL*FINAL*FINAL*************
+I deleted the class that was called MakeChangeEfficient, and made the various changes to the MakeChange class, it only requires one class, so one is handed in.
+
+

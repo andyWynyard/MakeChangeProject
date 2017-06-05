@@ -1,165 +1,69 @@
 package week1project;
-
 import java.util.Scanner;
 
 public class MakeChange {
+	static int[] changeDenoms = new int[12];
+	static String[] promptUser = {"Please enter item price: ", "Please enter the money tendered: ",
+					"Invalid amount!!", "Insufficient coin!!", "Required: ", "Your change includes: "};
+	static double inputArray[] = new double[2];
 	
-	static int hundredD, fiftyD, twentyD, tenD, fiveD, twoD, oneD, fiftyC, quarter, dime, nickle, penny;
-
 	public static void main(String[] args) {
+
+		TakeInput();
+	}
+	
+	/*********************************************************
+	 * 	I would very much like to compress TakeInput more
+	 * 	I think this whole method could be put into one array
+	 * 	I just have to figure out how to do it.
+	 *********************************************************/
+
+	public static void TakeInput() {
 		Scanner keyboard = new Scanner(System.in);
-		System.out.print("Please enter item price: ");
-		double ticketPrice = keyboard.nextDouble();
-		System.out.print("Please enter the money given: ");
-		double moneyGiven = keyboard.nextDouble();
-		
-		if ((ticketPrice * 100 % 1) != 0 || (moneyGiven * 100 % 1) != 0) {
-			System.out.println("Invalid amount!!");
+		for (int i = 0; i < 2; i++) {
+			System.out.print(promptUser[i]);
+			inputArray[i] = keyboard.nextDouble(); // Ticket price and money given taken into array.
+		}
+		keyboard.close();	
+
+		if ((inputArray[0] * 100 % 1) != 0 || (inputArray[1] * 100 % 1) != 0) {
+			System.out.println(promptUser[2]);
 		} else {
-			System.out.print("Amount: $" + ticketPrice + ", ");
-			System.out.println("Tendered: $" + moneyGiven);
-			keyboard.close();
-			
-			
-			if (ticketPrice > moneyGiven) {
-				System.out.println("Insufficient coin!!");
+			if (inputArray[0] > inputArray[1]) {	// If this is true, more money is required, and the prompts inform as much.
+				System.out.println(promptUser[3]);
+				CalcChange(-inputArray[0], 0);	// Negative ticketPrice to invert as CalcChange takes 0 to compare.
+				System.out.println(promptUser[4] + Concat()); // Still uses the CalcChange and Concat methods to inform the user.
 			} else {
-				CalcChange(ticketPrice, moneyGiven);
-				
-				System.out.println("Result: " + Concat());
-				System.out.println("" + hundredD + fiftyD + twentyD + tenD + fiveD + twoD + oneD + fiftyC + quarter + dime + nickle + penny);
+				CalcChange(inputArray[0], inputArray[1]);	// If all is well, this will happen.
+				System.out.println(promptUser[5] + Concat());
 			}
 		}
 	}
 	
 	public static void CalcChange(double ticketPrice, double moneyGiven) {
-		double returnSum = (moneyGiven * 100.0) - (ticketPrice * 100.0);
-		if (returnSum >= 10000) {
-			hundredD = (int)returnSum / 10000;	
+		double returnSum = (moneyGiven * 100) - (ticketPrice * 100); // (moneyGiven - ticketPrice) * 100, did not work for various denoms WHY!!!
+		int[] noteGroup = {10000, 5000, 2000, 1000, 500, 200, 100, 50, 25, 10, 5, 1}; // * 100 removes decimal places, easier to work with.
+		for (int i = 0; i < changeDenoms.length; i++) {
+			if ((int)(returnSum / noteGroup[i]) % 1 == 0) { 	// Could be done with >=, really depends on the developer.
+				changeDenoms[i] = (int)(returnSum / noteGroup[i]);	// Casing removes the decimal to add to the changeDenoms array
+			} else {
+				changeDenoms[i] = 0; // Assigns value to not used part of array, could leave as null, but it was easier for debug.
+			}
+			returnSum = returnSum - (changeDenoms[i] * noteGroup[i]); // Keep changing the return sum after the multiples have been removed.
 		}
-		returnSum = returnSum - (hundredD * 10000);
-		
-		if (returnSum >= 5000) {
-			fiftyD = (int)returnSum / 5000;	
-		}
-		returnSum = returnSum - (fiftyD * 5000);
-		
-		if (returnSum >= 2000) {
-			twentyD = (int)returnSum / 2000;
-		}
-		returnSum = returnSum - (twentyD * 2000);
-		
-		if (returnSum >= 1000) {
-			tenD = (int)returnSum / 1000;
-		}
-		returnSum = returnSum - (tenD * 1000);
-		
-		if (returnSum >= 500) {
-			fiveD = (int)returnSum / 500;
-		}
-		returnSum = returnSum - (fiveD * 500);
-		
-		if (returnSum >= 200) {
-			twoD = (int)returnSum / 200;
-		}
-		returnSum = returnSum - (twoD * 200);
-		
-		if (returnSum >= 100) {
-			oneD = (int)returnSum / 100;
-		}
-		returnSum = returnSum - (oneD * 100);
-		
-		if (returnSum >= 50) {
-			fiftyC = (int)returnSum / 50;
-		}
-		returnSum = returnSum - (fiftyC * 50);
-		
-		if (returnSum >= 25) {
-			quarter = (int)returnSum / 25;
-		}
-		returnSum = returnSum - (quarter * 25);
-		
-		if (returnSum >= 10) {
-			dime = (int)returnSum / 10;
-		}
-		returnSum = returnSum - (dime * 10);
-		
-		if (returnSum >= 5) {
-			nickle = (int)returnSum / 5;
-		}
-		returnSum = returnSum - (nickle * 5);
-		
-		if (returnSum >= 1) {
-			penny = (int)returnSum / 1;
-		}
-		returnSum = returnSum - (penny * 1);
-		
-		
 	}
 	
 	public static String Concat() {
-		
-	
+		final String[] notesCoins = {" hundred(s), ", " fiftie(s), ", " twentie(s), ", // This could be made more efficient
+				" ten(s), ", " five(s), ", " two(s), ", " one(s), ", " fifty c(s), ",  // I don't know how as yet.
+				" quarter(s), ", " dime(s), ", " nickle(s(, ", " penny(s)."};
 		String concat = "";
-		if (hundredD != 0) {
-			concat += hundredD + " hundreds, ";
-		}
 		
-		if (fiftyD != 0) {
-			concat += fiftyD + " fifties, ";
+		for (int i = 0; i < changeDenoms.length; i++) {
+			if (changeDenoms[i] != 0) { 	//Make sure that at least one of the values exists
+				concat += changeDenoms[i] + notesCoins[i]; 	// 	Puts together the response for the user.
+			}
 		}
-		
-		if (twentyD != 0) {
-			concat += twentyD + " twenties, ";
-		}
-		
-		if (tenD != 0) {
-			concat += tenD + " tens, ";
-		}
-		
-		if (fiveD != 0) {
-			concat += fiveD + " fives, ";
-		}
-		
-		if (twoD != 0) {
-			concat += twoD + " twos, ";
-		}
-		
-		if (oneD != 0) {
-			concat += oneD + " ones, ";
-		}
-		
-		if (fiftyC != 0) {
-			concat += fiftyC + " fifty cent pieces, ";
-		}
-		
-		if (quarter != 0) {
-			concat += quarter + " quarters, ";
-		}
-		
-		if (dime != 0) {
-			concat += dime + " dimes, ";
-		}
-		
-		if (nickle != 0) {
-			concat += nickle + " nickles, ";
-		}
-		
-		if (penny != 0) {
-			concat += penny + " pennies.";
-		}
-		return concat;
+		return concat; 
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
