@@ -20,7 +20,7 @@ public class MakeChange {
 
 	public static void TakeInput() {
 		Scanner keyboard = new Scanner(System.in);
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < inputArray.length; i++) {
 			System.out.print(promptUser[i]);
 			inputArray[i] = keyboard.nextDouble(); // Ticket price and money given taken into array.
 		}
