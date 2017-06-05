@@ -13,7 +13,7 @@ public class MakeChangeEfficient {
 	}
 	
 	/*********************************************************
-	 * 	I would very much like to compress this more
+	 * 	I would very much like to compress TakeInput more
 	 * 	I think this whole method could be put into one array
 	 * 	I just have to figure out how to do it.
 	 *********************************************************/
