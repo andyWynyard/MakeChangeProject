@@ -49,7 +49,7 @@ public class MakeChange {
 			} else {
 				changeDenoms[i] = 0; // Assigns value to not used part of array, could leave as null, but it was easier for debug.
 			}
-			returnSum = returnSum - (changeDenoms[i] * noteGroup[i]); // Keep changing the return sum after the multiples have been removed.
+			returnSum -= (changeDenoms[i] * noteGroup[i]); // Keep changing the return sum after the multiples have been removed.
 		}
 	}
 	
